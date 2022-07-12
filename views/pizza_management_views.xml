@@ -5,7 +5,12 @@
 		<field name="name">Create Order Tree</field>
 		<field name="model">pizza.management</field>
 		<field name="arch" type="xml">
-			<tree string="Order List" expand="1">
+			<tree string="Order List" expand="1"
+				decoration-muted="state == 'draft'"
+				decoration-info="state == 'submit'"
+				decoration-success="state == 'reserve'"
+				decoration-danger="state == 'cancel'"
+				>
 				<field name="name"/>
 				<field name="customer_id"/>
 				<field name="mobile"/>
@@ -90,6 +95,7 @@
 				<filter string="Status: Cancelled" name="filter_cancel" domain="[('state', '=', 'cancel')]"/>
 
 				<group expand="1" string="Group By">
+					<filter string="Order Date" name="state" context="{'group_by': 'name'}"/>
 					<filter string="Status" name="state" context="{'group_by': 'state'}"/>
 				</group>
 			</search>

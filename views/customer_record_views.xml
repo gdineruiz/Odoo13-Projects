@@ -5,7 +5,7 @@
 		<field name="name">Customer Record Tree</field>
 		<field name="model">customer.record</field>
 		<field name="arch" type="xml">
-			<tree string="Customer Records">
+			<tree string="Customer Records" default_order='name'>
 				<field name="name"/>
 				<field name="mobile"/>
 				<field name="email"/>
@@ -20,7 +20,7 @@
 		<field name="name">Customer Record Kanban</field>
 		<field name="model">customer.record</field>
 		<field name="arch" type="xml">
-			<kanban>
+			<kanban default_order='name'>
 				<field name="id"/>
 				<field name="name"/>
 				<field name="image"/>

@@ -15,7 +15,6 @@ class ProductOrder(models.Model):
 
     total_bill = fields.Float('Total Bill')
 
-    @ api.onchange('qty, price')
     def _compute_product_total_price(self):
         price = 0.0
         for rec in self:
