@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pizza_management,access_pizza_management,model_pizza_management,base.group_user,1,1,1,1
+access_product_inventory,access_product_inventory,model_product_inventory,base.group_user,1,1,1,1
+access_product_order,access_product_order,model_product_order,base.group_user,1,1,1,1
+access_customer_record,access_customer_record,model_customer_record,base.group_user,1,1,1,1

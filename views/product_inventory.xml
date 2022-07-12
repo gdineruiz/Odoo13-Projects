@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_product_inventory_tree" model="ir.ui.view">
+		<field name="name">Product Inventory Tree</field>
+		<field name="model">product.inventory</field>
+		<field name="arch" type="xml">
+			<tree string="Room Types" editable="bottom" default_order='name' expand="1">
+				<field name="name"/>
+				<field name="serving"/>
+				<field name="type"/>
+				<field name="price"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_product_inventory_form" model="ir.ui.view">
+		<field name="name">Product Inventory Form</field>
+		<field name="model">product.inventory</field>
+		<field name="arch" type="xml">
+			<form string="Room Types">
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+						</group>
+						<group>
+							<field name="serving"/>
+							<field name="type"/>
+							<field name="price"/>
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_product_inventory_search" model="ir.ui.view">
+		<field name="name">Product Inventory Search</field>
+		<field name="model">product.inventory</field>
+		<field name="arch" type="xml">
+			<search string="Customer Order Search">
+				<filter string="Serving: Small" name="filter_small" domain="[('serving', '=', 'small')]"/>
+				<filter string="Serving: Medium" name="filter_medium" domain="[('serving', '=', 'medium')]"/>
+				<filter string="Serving: Large" name="filter_large" domain="[('serving', '=', 'large')]"/>
+				<filter string="Type: Desert" name="filter_desert" domain="[('type', '=', 'desert')]"/>
+				<filter string="Type: Drink" name="filter_drink" domain="[('type', '=', 'drink')]"/>
+				<filter string="Type: Food" name="filter_food" domain="[('type', '=', 'food')]"/>
+				<filter string="Type: Other" name="filter_other" domain="[('type', '=', 'other')]"/>
+
+				<group expand="1" string="Group By">
+					<filter string="Serving" name="serving" context="{'group_by': 'serving'}"/>
+					<filter string="Type" name="type" context="{'group_by': 'type'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="product_inventory_action" model="ir.actions.act_window">
+		<field name="name">Product Inventory</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.inventory</field>
+		<field name="view_mode">tree</field>
+		<field name="context">{'group_by': 'type'}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No products yet, let's create one
+            </p>
+			<p>
+				Please ask the Manager if you have inquiry
+            </p>
+		</field>
+	</record>
+
+	<menuitem id="product_inventory_menu" name="Product Inventory"
+		parent="pizza_OMS.pizza_menu_root" action="product_inventory_action" sequence="2"/>
+
+</odoo>

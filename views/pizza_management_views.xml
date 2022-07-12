@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_create_order_tree" model="ir.ui.view">
+		<field name="name">Create Order Tree</field>
+		<field name="model">pizza.management</field>
+		<field name="arch" type="xml">
+			<tree string="Order List" expand="1">
+				<field name="name"/>
+				<field name="customer_id"/>
+				<field name="mobile"/>
+				<field name="email"/>
+				<field name="customer_description"/>
+				<field name="special_remarks"/>
+				<field name="total_bill" string="Total Bill"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_create_order_form" model="ir.ui.view">
+		<field name="name">Create Order Form</field>
+		<field name="model">pizza.management</field>
+		<field name="arch" type="xml">
+			<form string="Create Order">
+				<header>
+					<button name="submit" string="Order Prepared" type="object" class="oe_highlight" states="draft"/>
+					<button name="reserve" string="Order Delivered" type="object" class="oe_highlight" states="submit"/>
+					<button name="draft" string="Undo" type="object" states="submit" style="margin-right: 15px;"/>
+					<button name="cancel" string="Cancel Order" type="object" states="submit"/>
+					<field name="state" widget="statusbar" readonly="1" force_save="1" statusbar_visible="draft,submit,reserve"/>
+				</header>
+				<sheet>
+					<group>
+						<group string="Personal Details">
+							<field name="customer_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"
+								options="{'no_open':True,}" placeholder="Full Name"/>
+							<field name="mobile" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+							<field name="email" attrs="{'readonly':[('state','!=','draft')]}"/>
+						</group>
+						<group string="Address">
+							<field name="address1" placeholder="House No., Building, Street Name"
+								string="House No., Building, Street Name" required="1"
+								attrs="{'readonly':[('state','!=','draft')]}"/>
+							<field name="address2" placeholder="Baranggay, City, Province"
+								string="Baranggay, City, Province" required="1"
+								attrs="{'readonly':[('state','!=','draft')]}"/>
+						</group>
+						<group>
+							<field name="customer_description" attrs="{'readonly':[('state','!=','draft')]}"/>
+						</group>
+						<group>
+							<field name="special_remarks" attrs="{'readonly':[('state','!=','draft')]}"/>
+						</group>
+					</group>
+					<group>
+						<notebook>
+							<page string="Orders">
+								<field name="customer_order_ids" attrs="{'readonly':[('state','!=','draft')]}">
+									<tree string="Guests" editable="bottom">
+										<field name="product_id" options="{'no_create':True,'no_create_edit':True,'no_open':True,}" required="1"/>
+										<field name="qty"/>
+										<field name="price"/>
+										<field name="total_price"/>
+										<field name="total_bill" invisible="1"/>
+										<field name="order_id" invisible="1"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</group>
+					<div class="o_horizontal_separator oe_right">
+						Total Bill:
+						<field name="total_bill" readonly="1" force_save="1"/>
+					</div>
+
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_create_order_search" model="ir.ui.view">
+		<field name="name">Create Order Search</field>
+		<field name="model">pizza.management</field>
+		<field name="arch" type="xml">
+			<search string="Customer Order Search">
+				<filter string="Status: Placed" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+				<filter string="Status: Prepared" name="filter_submit" domain="[('state', '=', 'submit')]"/>
+				<filter string="Status: Delivered" name="filter_reserve" domain="[('state', '=', 'reserve')]"/>
+				<filter string="Status: Cancelled" name="filter_cancel" domain="[('state', '=', 'cancel')]"/>
+
+				<group expand="1" string="Group By">
+					<filter string="Status" name="state" context="{'group_by': 'state'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="pizza_management_action" model="ir.actions.act_window">
+		<field name="name">Create Order</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">pizza.management</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No orders yet, let's create one
+			</p>
+			<p>
+				Please ask the Manager if you have inquiry
+			</p>
+		</field>
+	</record>
+
+	<menuitem id="pizza_menu_root" name="Pizza OMS" sequence="3"/>
+	<menuitem id="pizza_menu" name="Pizza OMS" parent="pizza_menu_root" action="pizza_management_action" sequence="1"/>
+
+</odoo>
